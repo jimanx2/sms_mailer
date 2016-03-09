@@ -10,6 +10,7 @@ SmsMailer is just a gem that let you define your own Rails mailer that sends SMS
 ```
     #RAILS_ROOT/config/providers/isms.yml
     #RAILS_ROOT/config/initializers/isms_provider.rb
+		#RAILS_ROOT/config/initializers/sms_mailer.rb
 ```
 
 ## Defining Credentials
@@ -44,7 +45,7 @@ class IsmsProvider < SmsMailer::Provider
     
     def get_balance
         # Some API gateway provides an API endpoint to retrieve
-        # your account's current balance.
+        # your account\'s current balance.
         # You can do it here
     end
 end
@@ -56,7 +57,15 @@ Using the created provider is quite similar to [Rails ActionMailer Basics](http:
 
 1. First, generate your mailer `rails generate mailer MysmsMailer`
 2. Then, in `#RAIL_ROOT/app/mailers/mysms_mailer.rb`, change/set the default `delivery_method` to `IsmsProvider`. Also, set the `content_type` to `text/plain`
-3. All that remain is to use `MysmsMailer` just like any other ActionMailer
+3. Configure SmsMailer to load your provider and use it
+
+```
+#RAILS_ROOT/config/initializers/sms_mailer.rb
+SmsMailer.configure do |config|
+	config.provider = :isms
+end
+```
+4. All that remain is to use `MysmsMailer` just like any other ActionMailer
 
 ## How to check balance?
 
