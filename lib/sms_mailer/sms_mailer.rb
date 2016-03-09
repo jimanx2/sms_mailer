@@ -1,7 +1,7 @@
 module SmsMailer
 
 	class << self
-		attr_reader :configuration, :providers
+		attr_reader :configuration, :providers, :logger
 		
 		def config
 			@configuration
@@ -19,6 +19,10 @@ module SmsMailer
 				ensure
 					@providers << provider
 				end
+			end
+			
+			if @configuration.respond_to? :logger
+				@logger = @configuration.logger || Rails.logger
 			end
 		end
 		
